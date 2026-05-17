@@ -20,9 +20,18 @@ h1 {
   padding: 30px;
   border-radius: 30px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  color: #ffffff;
+  color: #2c3e50;
   transition: background-color 0.5s ease;
   box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
 #city {
@@ -51,6 +60,8 @@ h1 {
   margin: 20px 0;
   font-size: 15px;
   line-height: 1.4;
+  color: #2e4053;
+  font-weight: 600;
 }
 
 .sun-times {
@@ -95,4 +106,27 @@ h1 {
 
 .forecast-temp {
   font-variant-numeric: tabular-nums;
+}
+
+.uv-bubble {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

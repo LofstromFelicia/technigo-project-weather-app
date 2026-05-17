@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather app</title>
-    <!-- Don't forget to link the CSS file here! -->
-  </head>
-  <body>
-    <h1>Weather app</h1>
-  <!-- Don't forget to connect the JavaScript file -->
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather app</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Weather app</h1>
+
+  <div id="weather-container">
+    <p id="description">Loading weather...</p>
+    <h1 id="temperature">0°</h1>
+    <h2 id="city">City</h2>
+
+    <div class="sun-times">
+      <p>Sunrise: <span id="sunrise">--:--</span></p>
+      <p>Sunset: <span id="sunset">--:--</span></p>
+    </div>
+
+    <div id="forecast"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
 </html>

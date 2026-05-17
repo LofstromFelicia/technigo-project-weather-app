@@ -265,5 +265,11 @@ searchBtn.addEventListener("click", () => {
   }
 })
 
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    searchBtn.click()
+  }
+})
+
 fetchWeather("Tierp")
 fetchForecast("Tierp")

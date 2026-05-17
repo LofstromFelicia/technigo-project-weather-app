@@ -3,6 +3,7 @@ const temperature = document.getElementById("temperature")
 const description = document.getElementById("description")
 const sunrise = document.getElementById("sunrise")
 const sunset = document.getElementById("sunset")
+const forecastContainer = document.getElementById("forecast")
 
 const styleWeatherApp = (weatherMain) => {
   const container = document.getElementById("weather-container")
@@ -43,7 +44,6 @@ const fetchWeather = () => {
   fetch(BASE_URL)
     .then((response) => response.json())
     .then((data) => {
-      console.log("Weatherdata:", data)
 
       city.innerHTML = data.name
       temperature.innerHTML = `${data.main.temp.toFixed(1)}°`
@@ -64,3 +64,36 @@ const fetchWeather = () => {
 
 fetchWeather()
 
+const FORECAST_URL = `https://api.openweathermap.org/data/2.5/forecast?q=Stockholm,Sweden&units=metric&lang=se&APPID=${API_KEY}`
+
+const fetchForecast = () => {
+  fetch(FORECAST_URL)
+    .then((response) => response.json())
+    .then((data) => {
+      const filteredForecast = data.list.filter((item) => item.dt_txt.includes("12:00:00")
+      )
+
+      forecastContainer.innerHTML = ""
+
+      filteredForecast.forEach((day) => {
+
+        const date = new Date(day.dt_txt)
+
+        const dayName = date.toLocaleDateString("sv-SE", { weekday: "short" })
+
+        const temp = day.main.temp.toFixed(1)
+
+        forecastContainer.innerHTML += `
+        <div class="forecast-row">
+        <span class="forecast-day">${dayName}</span>
+        <span class="forecast-temp">${temp}</span>
+        </div>
+        `
+      })
+
+
+    })
+    .catch((error) => console.error("Prognos-fetch not working:", error))
+}
+
+fetchForecast()

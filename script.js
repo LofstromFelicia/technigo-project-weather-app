@@ -1,6 +1,8 @@
 const city = document.getElementById("city")
 const temperature = document.getElementById("temperature")
 const description = document.getElementById("description")
+const sunrise = document.getElementById("sunrise")
+const sunset = document.getElementById("sunset")
 
 const styleWeatherApp = (weatherMain) => {
   const container = document.getElementById("weather-container")
@@ -25,6 +27,15 @@ const styleWeatherApp = (weatherMain) => {
   }
 }
 
+const formatTime = (unixTimestamp) => {
+  const date = new Date(unixTimestamp * 1000)
+
+  const hours = date.getHours().toString().padStart(2, "0")
+  const minutes = date.getMinutes().toString().padStart(2, "0")
+
+  return `${hours}:${minutes}`
+}
+
 const API_KEY = "b41cc812b4058189c1534f5dd668317d"
 const BASE_URL = `https://api.openweathermap.org/data/2.5/weather?q=Stockholm,Sweden&units=metric&lang=se&APPID=${API_KEY}`
 
@@ -39,6 +50,12 @@ const fetchWeather = () => {
       description.innerHTML = data.weather[0].description
 
       const weatherMain = data.weather[0].main
+
+      const sunriseTime = formatTime(data.sys.sunrise)
+      const sunsetTime = formatTime(data.sys.sunset)
+
+      sunrise.innerHTML = sunriseTime
+      sunset.innerHTML = sunsetTime
 
       styleWeatherApp(weatherMain)
     })

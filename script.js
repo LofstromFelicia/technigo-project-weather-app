@@ -5,27 +5,130 @@ const sunrise = document.getElementById("sunrise")
 const sunset = document.getElementById("sunset")
 const forecastContainer = document.getElementById("forecast")
 
-const styleWeatherApp = (weatherMain) => {
+const styleWeatherApp = (weatherMain, weatherId, weatherIconName) => {
   const container = document.getElementById("weather-container")
   const outfitTip = document.getElementById("outfit-tip")
+  const weatherIcon = document.getElementById("weather-icon")
 
-  // Function that styles app based on weather-id & Outfit tip (kläder efter väder)
+  const isNight = weatherIconName.endsWith("n")
+
+  let iconFile = "sol-och-moln.svg"
+
+  // ========== CLEAR SUN & NIGHT ==========
   if (weatherMain === "Clear") {
-    container.style.backgroundColor = "#F7DC6F" //sunny yellow
-    outfitTip.innerHTML = "Kläder efter väder: Solbrillor och T-shirt! ☀️"
-  } else if (weatherMain === "Clouds") {
-    container.style.backgroundColor = "#AEB6BF" //cloudy grey 
-    outfitTip.innerHTML = "Kläder efter väder: En skön tröja räcker nog. ☁️"
-  } else if (weatherMain === "Thunderstorm") {
-    container.style.backgroundColor = "#2C3E50" //thunder grey
-    outfitTip.innerHTML = "Kläder efter väder: Håll dig inomhus i myskläder! ⛈️"
-  } else if (weatherMain === "Rain" || weatherMain === "Drizzle") {
-    container.style.backgroundColor = "#34495E" //rain grey
-    outfitTip.innerHTML = "Kläder efter väder: Regnjacka och gummistövlar på! 🌧️"
-  } else if (weatherMain === "Snow") {
-    container.style.backgroundColor = "#EBF5FB" //snow white
-    outfitTip.innerHTML = "Kläder efter väder: Tjockjacka, mössa och vantar! ❄️"
+    if (isNight) {
+      container.style.backgroundColor = "#1a252f"
+      outfitTip.innerHTML = "Stjärnklart och fint ikväll! 🌙"
+      iconFile = "natt.svg"
+    } else {
+      container.style.backgroundColor = "#f7dc6f" //sunny yellow
+      outfitTip.innerHTML = "Kläder efter väder: Solbrillor och T-shirt! ☀️"
+      iconFile = "dag.svg"
+    }
   }
+
+  // ========== CLOUDY ==========
+  else if (weatherMain === "Clouds") {
+    if (weatherId === 801 || weatherId === 802) {
+      if (isNight) {
+        container.style.backgroundColor = "#2c3e50"
+        outfitTip.innerHTML = "Lite nattmoln på himlen. 🌙☁️"
+        iconFile = "natt-och-lite-moln.svg"
+      } else {
+        container.style.backgroundColor = "#d5d8dc"
+        outfitTip.innerHTML = "Solen kikar fram mellan molnen ibland! 🌤️"
+        iconFile = "sol-och-lite-moln.svg"
+      }
+    }
+    else if (weatherId === 803) {
+      if (isNight) {
+        container.style.backgroundColor = "#212f3d"
+        outfitTip.innerHTML = "Ganska molnigt ikväll. ☁️"
+        iconFile = "natt-ganska-molnigt.svg"
+      } else {
+        container.style.backgroundColor = "#95a5a6"
+        outfitTip.innerHTML = "Ganska tunga moln på himlen idag. ⛅"
+        iconFile = "ganska-molnigt.svg"
+      }
+    }
+    else if (weatherId === 804) {
+      if (isNight) {
+        container.style.backgroundColor = "#1c2833"
+        outfitTip.innerHTML = "Helt mulet i natt. ☁️"
+        iconFile = "natt-helmulet.svg"
+      } else {
+        container.style.backgroundColor = "#707b7c"
+        outfitTip.innerHTML = "Grått och helmulet. Det hänger nästan regn i luften! ☁️"
+        iconFile = "helmulet.svg"
+      }
+    }
+  }
+
+  // ========== RAIN ==========
+  else if (weatherMain === "Rain" || weatherMain === "Drizzle") {
+    container.style.backgroundColor = "#34495e"
+
+    if (weatherId === 500 && !isNight) {
+      outfitTip.innerHTML = "Det duggar lite lätt medan solen är framme! 🌦️"
+      iconFile = "solregn.svg"
+    }
+    else if (weatherId === 501 && !isNight) {
+      outfitTip.innerHTML = "Regnskurar, men solen kämpar på i bakgrunden! 🌦️"
+      iconFile = "medium-regn-sol.svg"
+    }
+    else if (weatherId === 500 || weatherMain === "Drizzle") {
+      outfitTip.innerHTML = "Det duggar lite lätt, ett litet paraply räcker! 🌧️"
+      iconFile = "latt-regn.svg"
+    }
+    else if (weatherId === 501) {
+      outfitTip.innerHTML = "Klassiskt svenskt regn. Jacka på! 🌧️"
+      iconFile = "medium-regn.svg"
+    }
+    else {
+      outfitTip.innerHTML = "Ösregn! Regnjacka och gummistövlar på! 🌧️"
+      iconFile = "hart-regn.svg"
+    }
+  }
+
+  // ========== THUNDER & HAIL ==========
+  else if (weatherMain === "Thunderstorm") {
+    container.style.backgroundColor = "#2c3e50"
+    outfitTip.innerHTML = "Mullret går! Håll dig inomhus och mys. ⛈️"
+    iconFile = "aska.svg"
+  }
+
+  if (weatherId === 511) {
+    container.style.backgroundColor = "#34495e"
+    outfitTip.innerHTML = "Se upp, det haglar/är underkylt regn! 🥶"
+    iconFile = "hagel.svg"
+  }
+
+  // ========== SNOW ==========
+  else if (weatherMain === "Snow") {
+    container.style.backgroundColor = "#EBF5FB"
+    if (weatherId === 600 && !isNight) {
+      outfitTip.innerHTML = "Lätt nysnö och solglimtar! ❄️☀️"
+      iconFile = "latt-sno-sol.svg"
+    }
+    else if (weatherId === 601 && !isNight) {
+      outfitTip.innerHTML = "Det snöar på flit, men solen syns bakom! ❄️"
+      iconFile = "medium-sno-sol.svg"
+    }
+    else if (weatherId === 600) {
+      outfitTip.innerHTML = "Det singlar ner lite mysig nysnö! ❄️"
+      iconFile = "latt-sno.svg"
+    }
+    else if (weatherId === 601) {
+      outfitTip.innerHTML = "Det snöar jämnt och fint ute. ❄️"
+      iconFile = "medium-sno.svg"
+    }
+    else {
+      outfitTip.innerHTML = "Snöstorm! Tjockjacka, mössa och vantar på! 🌨️"
+      iconFile = "tung-sno.svg"
+    }
+  }
+
+  weatherIcon.src = `./assets/${iconFile}`
 }
 
 const formatTime = (unixTimestamp) => {
@@ -50,6 +153,8 @@ const fetchWeather = () => {
       description.innerHTML = data.weather[0].description
 
       const weatherMain = data.weather[0].main
+      const weatherId = data.weather[0].id
+      const weatherIconName = data.weather[0].icon
 
       const sunriseTime = formatTime(data.sys.sunrise)
       const sunsetTime = formatTime(data.sys.sunset)
@@ -57,7 +162,7 @@ const fetchWeather = () => {
       sunrise.innerHTML = sunriseTime
       sunset.innerHTML = sunsetTime
 
-      styleWeatherApp(weatherMain)
+      styleWeatherApp(weatherMain, weatherId, weatherIconName)
     })
     .catch((error) => console.error("Oops, your weather fetch did not work:", error))
 }

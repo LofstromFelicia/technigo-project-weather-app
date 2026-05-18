@@ -5,64 +5,77 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Väderappen | Live Weather</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Montserrat:wght@700;800&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 
   <link rel="icon" type="image/svg+xml" href="./assets/sol-och-moln.svg">
 </head>
 
 <body>
-  <h1>Weather app</h1>
+  <header>
+    <h1 class="app-title">Väderappen</h1>
 
-  <div class="search-box">
-    <input type="text" id="search-input" placeholder="Sök stad...">
-    <button id="search-btn">Sök</button>
-  </div>
-
-  <div id="weather-container">
-    <p id="description">Loading weather...</p>
-    <img id="weather-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-      alt="weather-icon">
-    <h1 id="temperature">0°</h1>
-    <h2 id="city">City</h2>
-
-    <p id="outfit-tip"></p>
-
-    <div class="weather-details">
-      <div class="detail-item">
-        <span>Högst / Lägst:</span>
-        <span id="temp-max-min">0° / 0°</span>
-      </div>
-      <div class="detail-item">
-        <span>Regnrisk:</span>
-        <span id="pop">0°</span>
-      </div>
-      <div class="detail-item">
-        <span>Vind:</span>
-        <span id="wind">0 m/s</span>
-      </div>
-      <div class="detail-item">
-        <span>Luftfuktighet</span>
-        <span id="humidity">0%</span>
-      </div>
-      <div class="detail-item">
-        <span>Känns som:</span>
-        <span id="feels-like">0°</span>
-      </div>
-      <div class="detail-item">
-        <span>UV-index:</span>
-        <span id="uv-index">0</span>
-      </div>
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Sök stad...">
+      <button id="search-btn">🔍</button>
     </div>
+  </header>
 
-    <div id="uv-warning" class="uv-bubble" style="display: none;"></div>
+  <main>
+    <div id="weather-container">
+      <p id="description">Loading weather...</p>
+      <img id="weather-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        alt="weather-icon">
+      <h1 id="temperature">0°</h1>
+      <h2 id="city">City</h2>
 
-    <div class="sun-times">
-      <p>Sunrise: <span id="sunrise">--:--</span></p>
-      <p>Sunset: <span id="sunset">--:--</span></p>
+      <p id="outfit-tip"></p>
+
+      <div class="weather-details">
+        <div class="detail-item">
+          <span>Högst / Lägst:</span>
+          <span id="temp-max-min">0° / 0°</span>
+        </div>
+        <div class="detail-item">
+          <span>Regnrisk:</span>
+          <span id="pop">0°</span>
+        </div>
+        <div class="detail-item">
+          <span>Vind:</span>
+          <span id="wind">0 m/s</span>
+        </div>
+        <div class="detail-item">
+          <span>Luftfuktighet</span>
+          <span id="humidity">0%</span>
+        </div>
+        <div class="detail-item">
+          <span>Känns som:</span>
+          <span id="feels-like">0°</span>
+        </div>
+        <div class="detail-item">
+          <span>UV-index:</span>
+          <span id="uv-index">0</span>
+        </div>
+      </div>
+
+      <div id="uv-warning" class="uv-bubble" style="display: none;"></div>
+
+      <div class="sun-times">
+        <p>Sunrise: <span id="sunrise">--:--</span></p>
+        <p>Sunset: <span id="sunset">--:--</span></p>
+      </div>
+
+      <div id="forecast"></div>
     </div>
+  </main>
 
-    <div id="forecast"></div>
-  </div>
+  <footer>
+    <p>Created with 🤍 by Felicia Löfström | Web Development Project 2026</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

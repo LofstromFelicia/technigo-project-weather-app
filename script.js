@@ -179,7 +179,6 @@ const fetchWeather = (cityName) => {
       feelsLike.innerHTML = `${data.main.feels_like.toFixed(1)}°`
       const maxTemp = data.main.temp_max.toFixed(1)
       const minTemp = data.main.temp_min.toFixed(1)
-      tempMaxMin.innerHTML = `${maxTemp}° / ${minTemp}°`
 
       let rainChance = data.clouds.all
       if (weatherMain === "Rain" || weatherMain === "Drizzle" || weatherMain === "Thunderstorm") {
@@ -249,6 +248,22 @@ const fetchForecast = (cityName) => {
   fetch(FORECAST_URL)
     .then((response) => response.json())
     .then((data) => {
+      const next24Hours = data.list.slice(0, 8)
+
+      let highestTemp = -100
+      let lowestTemp = 100
+
+      next24Hours.forEach((item) => {
+        if (item.main.temp_max > highestTemp) {
+          highestTemp = item.main.temp_max
+        }
+        if (item.main.temp_min < lowestTemp) {
+          lowestTemp = item.main.temp_min
+        }
+      })
+
+      tempMaxMin.innerHTML = `${highestTemp.toFixed(1)}° / ${lowestTemp.toFixed(1)}°`
+
       const filteredForecast = data.list.filter((item) => item.dt_txt.includes("12:00:00"))
       forecastContainer.innerHTML = ""
 
@@ -257,7 +272,6 @@ const fetchForecast = (cityName) => {
         const dayName = date.toLocaleDateString("sv-SE", { weekday: "short" })
         const temp = day.main.temp.toFixed(1)
         const forecastIcon = day.weather[0].icon
-
         const customIconFile = getCustomIcon(forecastIcon)
 
         forecastContainer.innerHTML += `

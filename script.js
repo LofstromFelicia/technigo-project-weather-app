@@ -21,14 +21,16 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
 
   let iconFile = "sol-och-moln.svg"
 
+  document.body.className = ""
+
   // ========== CLEAR SUN & NIGHT ==========
   if (weatherMain === "Clear") {
     if (isNight) {
-      document.body.style.backgroundColor = "#1a252f"
+      document.body.classList.add("weather-rainy")
       outfitTip.innerHTML = "Stjärnklart och fint ikväll! 🌙"
       iconFile = "natt.svg"
     } else {
-      document.body.style.backgroundColor = "#f7dc6f" //sunny yellow
+      document.body.classList.add("weather-sunny")
       iconFile = "dag.svg"
 
       if (currentTemp < 10) {
@@ -43,35 +45,31 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
 
   // ========== CLOUDY ==========
   else if (weatherMain === "Clouds") {
+    document.body.classList.add("weather-cloudy")
+
     if (weatherId === 801 || weatherId === 802) {
       if (isNight) {
-        document.body.style.backgroundColor = "#2c3e50"
         outfitTip.innerHTML = "Lite nattmoln på himlen. 🌙☁️"
         iconFile = "natt-och-lite-moln.svg"
       } else {
-        document.body.style.backgroundColor = "#d5d8dc"
         outfitTip.innerHTML = "Solen kikar fram mellan molnen ibland! 🌤️"
         iconFile = "sol-och-lite-moln.svg"
       }
     }
     else if (weatherId === 803) {
       if (isNight) {
-        document.body.style.backgroundColor = "#212f3d"
         outfitTip.innerHTML = "Ganska molnigt ikväll. ☁️"
         iconFile = "natt-ganska-molnigt.svg"
       } else {
-        document.body.style.backgroundColor = "#95a5a6"
         outfitTip.innerHTML = "Ganska tunga moln på himlen idag. ⛅"
         iconFile = "ganska-molnigt.svg"
       }
     }
     else if (weatherId === 804) {
       if (isNight) {
-        document.body.style.backgroundColor = "#1c2833"
         outfitTip.innerHTML = "Helt mulet i natt. ☁️"
         iconFile = "natt-helmulet.svg"
       } else {
-        document.body.style.backgroundColor = "#707b7c"
         outfitTip.innerHTML = "Grått och helmulet. Det hänger nästan regn i luften! ☁️"
         iconFile = "helmulet.svg"
       }
@@ -80,7 +78,7 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
 
   // ========== RAIN ==========
   else if (weatherMain === "Rain" || weatherMain === "Drizzle") {
-    document.body.style.backgroundColor = "#34495e"
+    document.body.classList.add("weather-rainy")
 
     if (weatherId === 500 && !isNight) {
       outfitTip.innerHTML = "Det duggar lite lätt medan solen är framme! 🌦️"
@@ -106,20 +104,21 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
 
   // ========== THUNDER & HAIL ==========
   else if (weatherMain === "Thunderstorm") {
-    document.body.style.backgroundColor = "#2c3e50"
+    document.body.classList.add("weather-rainy")
     outfitTip.innerHTML = "Mullret går! Håll dig inomhus och mys. ⛈️"
     iconFile = "aska.svg"
   }
 
   if (weatherId === 511) {
-    document.body.style.backgroundColor = "#34495e"
+    document.body.classList.add("weather-rainy")
     outfitTip.innerHTML = "Se upp, det haglar/är underkylt regn! 🥶"
     iconFile = "hagel.svg"
   }
 
   // ========== SNOW ==========
   else if (weatherMain === "Snow") {
-    document.body.style.backgroundColor = "#EBF5FB"
+    document.body.classList.add("weather-snow")
+
     if (weatherId === 600 && !isNight) {
       outfitTip.innerHTML = "Lätt nysnö och solglimtar! ❄️☀️"
       iconFile = "latt-sno-sol.svg"

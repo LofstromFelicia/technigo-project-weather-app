@@ -2,22 +2,22 @@ body {
   font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 20px;
-  background-color: #f2f4f4;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: background-color 0.8s ease;
+  min-height: 100vh;
 }
 
 .app-title {
   text-align: center;
   color: #ffffff;
   font-family: 'Montserrat', sans-serif;
-  font-size: 2.4rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  letter-spacing: 6px;
   text-transform: uppercase;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-bottom: 20px;
   text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -85,19 +85,18 @@ body {
 #weather-container {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  max-width: 450px;
+  width: 450px;
+  max-width: 95%;
   box-sizing: border-box;
   margin: 20px auto;
   padding: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  color: #2c3e50;
-  transition: background-color 0.5s ease;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
 }
 
 .current-weather-box {
@@ -117,22 +116,46 @@ body {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  padding-right: 140px;
+  width: 100%;
+}
+
+#city,
+#description,
+.temp-block {
+  padding-right: 170px;
+  box-sizing: border-box;
 }
 
 #city {
   font-family: 'Montserrat', sans-serif;
   font-size: 32px;
-  margin: 0 0 5px 0;
   font-weight: 600;
-  color: #2c3e50;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 #description {
   font-size: 18px;
   text-transform: capitalize;
   margin: 0 0 15px 0;
-  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item span:first-child {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 400;
+}
+
+.detail-item span:last-child {
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .temp-block {
@@ -144,43 +167,46 @@ body {
   margin: 0;
   font-weight: 300;
   line-height: 1;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .feels-like-top {
   font-size: 14px;
   margin: 6px 0 0 0;
-  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 600;
 }
 
 #outfit-tip {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
   padding: 15px;
   border-radius: 15px;
   margin: 10px 0 0 0;
   font-size: 15px;
   line-height: 1.4;
-  color: #2e4053;
+  color: #ffffff;
   font-weight: 600;
-  max-width: 220px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 #weather-icon {
-  width: 180px;
-  height: 180px;
+  width: 250px;
+  height: 250px;
   display: block;
   margin: 0;
   position: absolute;
-  right: -25px;
-  top: -45px;
+  right: -50px;
+  top: 20px;
   object-fit: contain;
   z-index: 10;
   filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.25));
   pointer-events: none;
-}
-
-.weather-details .details-item:last-child {
-  grid-column: span 2;
 }
 
 .sun-times {
@@ -245,6 +271,24 @@ footer p {
   letter-spacing: 1px;
   margin: 0;
   font-weight: 400;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+body.weather-cloudy,
+body {
+  background: linear-gradient(135deg, #4a5c60, #2c3a3e) fixed;
+}
+
+body.weather-sunny {
+  background: linear-gradient(135deg, #1a3c5a, #2a4d6c) fixed;
+}
+
+body.weather-rainy {
+  background: linear-gradient(135deg, #1b263b, #0d1b2a) fixed;
+}
+
+body.weather-snow {
+  background: linear-gradient(135deg, #2c3e50, #34495e) fixed;
 }
 
 @keyframes popIn {

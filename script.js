@@ -9,8 +9,10 @@ const humidity = document.getElementById("humidity")
 const feelsLike = document.getElementById("feels-like")
 const uvIndex = document.getElementById("uv-index")
 const uvWarning = document.getElementById("uv-warning")
+const tempMaxMin = document.getElementById("temp-max-min")
+const pop = document.getElementById("pop")
 
-const styleWeatherApp = (weatherMain, weatherId, weatherIconName) => {
+const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) => {
   const container = document.getElementById("weather-container")
   const outfitTip = document.getElementById("outfit-tip")
   const weatherIcon = document.getElementById("weather-icon")
@@ -27,8 +29,15 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName) => {
       iconFile = "natt.svg"
     } else {
       document.body.style.backgroundColor = "#f7dc6f" //sunny yellow
-      outfitTip.innerHTML = "Kläder efter väder: Solbrillor och T-shirt! ☀️"
       iconFile = "dag.svg"
+
+      if (currentTemp < 10) {
+        outfitTip.innerHTML = "Soligt men kallt! På med tjocktröja och solbrillorna.🥶🕶️"
+      } else if (currentTemp >= 10 && currentTemp < 17) {
+        outfitTip.innerHTML = "Solen skiner, men det är friskt (runt 11-16°). En skön tröja eller vårjacka rekommenderas! 🧥🕶️"
+      } else {
+        outfitTip.innerHTML = "Kläder efter väder: Äntligen T-shirt och solbrillor! ☀️🕶️"
+      }
     }
   }
 
@@ -168,6 +177,19 @@ const fetchWeather = (cityName) => {
       wind.innerHTML = `${data.wind.speed.toFixed(1)} m/s`
       humidity.innerHTML = `${data.main.humidity}%`
       feelsLike.innerHTML = `${data.main.feels_like.toFixed(1)}°`
+      const maxTemp = data.main.temp_max.toFixed(1)
+      const minTemp = data.main.temp_min.toFixed(1)
+      tempMaxMin.innerHTML = `${maxTemp}° / ${minTemp}°`
+
+      let rainChance = data.clouds.all
+      if (weatherMain === "Rain" || weatherMain === "Drizzle" || weatherMain === "Thunderstorm") {
+        rainChance = 100
+      } else if (weatherMain === "Clear") {
+        rainChance = 0
+      } else {
+        rainChance = Math.round(data.clouds.all * 0.4)
+      }
+      pop.innerHTML = `${rainChance}%`
 
       const currentTemp = data.main.temp
       const isSunny = data.weather[0].main === "Clear"
@@ -200,9 +222,7 @@ const fetchWeather = (cityName) => {
         uvWarning.style.display = "none"  // hide bubble if low UV 
       }
 
-      styleWeatherApp(weatherMain, weatherId, weatherIconName)
-
-      // styleWeatherApp("Clear", 800, "01d")
+      styleWeatherApp(weatherMain, weatherId, weatherIconName, currentTemp)
     })
     .catch((error) => console.error("Oops, your weather fetch did not work:", error))
 }

@@ -27,13 +27,25 @@
 
   <main>
     <div id="weather-container">
-      <p id="description">Loading weather...</p>
-      <img id="weather-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        alt="weather-icon">
-      <h1 id="temperature">0°</h1>
-      <h2 id="city">City</h2>
 
-      <p id="outfit-tip"></p>
+      <div class="current-weather-box">
+
+        <div class="current-weather-text">
+          <h2 id="city">City</h2>
+          <p id="description">Loading weather...</p>
+
+          <div class="temp-block">
+            <p id="temperature">0°</p>
+            <p class="feels-like-top">Känns som: <span id="feels-like">0°</span></p>
+          </div>
+
+          <p id="outfit-tip"></p>
+        </div>
+
+        <img id="weather-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          alt="weather-icon">
+
+      </div>
 
       <div class="weather-details">
         <div class="detail-item">
@@ -42,7 +54,7 @@
         </div>
         <div class="detail-item">
           <span>Regnrisk:</span>
-          <span id="pop">0°</span>
+          <span id="pop">0%</span>
         </div>
         <div class="detail-item">
           <span>Vind:</span>
@@ -51,10 +63,6 @@
         <div class="detail-item">
           <span>Luftfuktighet</span>
           <span id="humidity">0%</span>
-        </div>
-        <div class="detail-item">
-          <span>Känns som:</span>
-          <span id="feels-like">0°</span>
         </div>
         <div class="detail-item">
           <span>UV-index:</span>

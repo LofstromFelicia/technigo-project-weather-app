@@ -83,61 +83,104 @@ body {
 }
 
 #weather-container {
+  display: flex;
+  flex-direction: column;
   width: 90%;
   max-width: 450px;
+  box-sizing: border-box;
   margin: 20px auto;
   padding: 30px;
-  border-radius: 30px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   color: #2c3e50;
   transition: background-color 0.5s ease;
-  box-sizing: border-box;
-
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
-.weather-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin: 20px 0;
+.current-weather-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.current-weather-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding-right: 140px;
 }
 
 #city {
+  font-family: 'Montserrat', sans-serif;
   font-size: 32px;
-  margin: 10px 0 0 0;
+  margin: 0 0 5px 0;
   font-weight: 600;
-}
-
-#temperature {
-  font-size: 72px;
-  margin: 10px 0;
-  font-weight: 300;
+  color: #2c3e50;
 }
 
 #description {
   font-size: 18px;
   text-transform: capitalize;
-  margin: 0;
+  margin: 0 0 15px 0;
   opacity: 0.9;
+}
+
+.temp-block {
+  margin-bottom: 15px;
+}
+
+#temperature {
+  font-size: 72px;
+  margin: 0;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.feels-like-top {
+  font-size: 14px;
+  margin: 6px 0 0 0;
+  opacity: 0.8;
+  font-weight: 600;
 }
 
 #outfit-tip {
   background-color: rgba(255, 255, 255, 0.2);
   padding: 15px;
   border-radius: 15px;
-  margin: 20px 0;
+  margin: 10px 0 0 0;
   font-size: 15px;
   line-height: 1.4;
   color: #2e4053;
   font-weight: 600;
+  max-width: 220px;
+}
+
+#weather-icon {
+  width: 180px;
+  height: 180px;
+  display: block;
+  margin: 0;
+  position: absolute;
+  right: -25px;
+  top: -45px;
+  object-fit: contain;
+  z-index: 10;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+}
+
+.weather-details .details-item:last-child {
+  grid-column: span 2;
 }
 
 .sun-times {
@@ -147,13 +190,6 @@ body {
   padding-bottom: 15px;
   margin-bottom: 20px;
   font-size: 14px;
-}
-
-#weather-icon {
-  width: 100px;
-  height: 100px;
-  display: block;
-  margin: 0 auto 15px auto;
 }
 
 #forecast {

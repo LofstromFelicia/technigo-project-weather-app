@@ -47,11 +47,11 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
     } else {
       document.body.classList.add("weather-sunny")
       if (currentTemp < 10) {
-        outfitTip.innerHTML = "Soligt men kallt! På med tjocktröja och solbrillorna.🥶🕶️"
+        outfitTip.innerHTML = "Soligt men lurigt! På med tjocktröja och solbrillorna.🥶🕶️"
       } else if (currentTemp >= 10 && currentTemp < 17) {
-        outfitTip.innerHTML = "Solen skiner, men det är friskt (runt 11-16°). En skön tröja eller vårjacka rekommenderas! 🧥🕶️"
+        outfitTip.innerHTML = "Solen skiner, men det är friskt. En skön tröja eller vårjacka blir perfekt! 🧥🕶️"
       } else {
-        outfitTip.innerHTML = "Kläder efter väder: Äntligen T-shirt och solbrillor! ☀️🕶️"
+        outfitTip.innerHTML = "Äntligen T-shirt och solbrillor! Ut och njut! ☀️🕶️"
       }
     }
   }
@@ -60,11 +60,11 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
   else if (weatherMain === "Clouds") {
     document.body.classList.add("weather-cloudy")
     if (weatherId === 801 || weatherId === 802) {
-      outfitTip.innerHTML = isNight ? "Lite nattmoln på himlen. 🌙☁️" : "Solen kikar fram mellan molnen ibland! 🌤️"
+      outfitTip.innerHTML = isNight ? "Lite nattmoln på himlen. 🌙☁️" : "Solen kikar fram ibland! Perfekt hoodie-väder. 🌤️"
     } else if (weatherId === 803) {
-      outfitTip.innerHTML = isNight ? "Ganska molnigt ikväll. ☁️" : "Ganska tunga moln på himlen idag. ⛅"
+      outfitTip.innerHTML = isNight ? "Ganska molnigt ikväll. ☁️" : "Gråmulet men stabilt. En vindtät jacka sitter fint idag. ⛅"
     } else if (weatherId === 804) {
-      outfitTip.innerHTML = isNight ? "Helt mulet i natt. ☁️" : "Grått och helmulet. Det hänger nästan regn i luften! ☁️"
+      outfitTip.innerHTML = isNight ? "Helt mulet i natt. ☁️" : "Helt mulet. Det hänger nästan regn i luften, men säkra upp med en keps eller luva! ☁️"
     }
   }
 
@@ -73,34 +73,34 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
     document.body.classList.add("weather-rainy")
 
     if (iconFile === "solregn.svg") {
-      outfitTip.innerHTML = "Det duggar lite lätt medan solen är framme! 🌦️"
+      outfitTip.innerHTML = "Det duggar medan solen är framme! Spana efter regnbågen. 🌦️🌈"
     } else if (iconFile === "latt-regn.svg") {
-      outfitTip.innerHTML = "Det duggar lite lätt under molnen. Ett litet paraply räcker! 🌧️"
+      outfitTip.innerHTML = "Småruggigt duggregn. Ett litet paraply eller en snygg keps räcker! 🌧️"
     } else if (weatherId === 501) {
-      outfitTip.innerHTML = "Klassiskt svenskt regn. Jacka på! 🌧️"
+      outfitTip.innerHTML = "Klassiskt svenskt regn. Jacka på och raska steg! 🌧️"
       iconFile = "medium-regn.svg"
     } else if (weatherId === 511) {
       outfitTip.innerHTML = "Se upp, det haglar/är underkylt regn! 🌧️"
     } else {
-      outfitTip.innerHTML = "Ösregn! Regnjacka och gummistövlar på! 🌧️"
+      outfitTip.innerHTML = "Himmelens portar är öppna! Regnjacka, gummistövlar och humöret på topp! 🌧️👢"
     }
   }
 
   // === THUNDER ===
   else if (weatherMain === "Thunderstorm") {
     document.body.classList.add("weather-rainy")
-    outfitTip.innerHTML = "Mullret går! Håll dig inomhus och mys. ⛈️"
+    outfitTip.innerHTML = "Mullret går! Håll dig inomhus och mys. ⛈️☕"
   }
 
   // === SNOW ===
   else if (weatherMain === "Snow") {
     document.body.classList.add("weather-snow")
     if (weatherId === 600) {
-      outfitTip.innerHTML = isNight ? "Det singlar ner lite mysig nysnö! ❄️" : "Lätt nysnö och solglimtar ❄️☀️"
+      outfitTip.innerHTML = isNight ? "Det singlar ner lite mysig nysnö! Fram med kameran. ❄️" : "Lätt nysnö och solglimtar ❄️☀️"
     } else if (weatherId === 601) {
       outfitTip.innerHTML = isNight ? "Det snöar jämnt och fint ute. ❄️" : "Det snöar, men solen syns bakom! ❄️☀️"
     } else {
-      outfitTip.innerHTML = "Snöstorm! Tjockjacka, mössa och vantar på! 🌨️"
+      outfitTip.innerHTML = "Snöstorm! Tjockjacka, mössa och vantar på! Eller stanna inne vid brasan! 🌨️🔥"
     }
   }
 
@@ -238,13 +238,20 @@ const fetchForecast = (cityName) => {
 
       filteredForecast.forEach((day) => {
         const date = new Date(day.dt_txt)
-        const dayName = date.toLocaleDateString("sv-SE", { weekday: "short" })
+        const dayNameLong = date.toLocaleDateString("sv-SE", { weekday: "long" })
+        const dayNameFormatted = dayNameLong.charAt(0).toUpperCase() + dayNameLong.slice(1)
+
+        const shortPart = dayNameFormatted.slice(0, 3)
+        const restPart = dayNameFormatted.slice(3)
+
         const temp = day.main.temp.toFixed(1)
         const customIconFile = getCustomIcon(day.weather[0].icon, day.weather[0].id)
 
         forecastContainer.innerHTML += `
         <div class="forecast-row">
-        <span class="forecast-day">${dayName}</span>
+        <span class="forecast-day">
+        ${shortPart}<span class="hide-rest">${restPart}</span>
+        </span>
         <img src="./assets/${customIconFile}" class="forecast-icon-small" /> 
         <span class="forecast-temp">${temp}°</span>
         </div>

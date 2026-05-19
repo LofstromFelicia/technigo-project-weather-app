@@ -6,8 +6,9 @@ The app fetches real-time data and forecasts using the OpenWeatherMap API.
 (./assets/sol-och-moln.svg) *Is it stubbornly raining in Tierp again? The app will display the true, cozy rain cloud to match!*
 
 ## 🚀 VIEW IT LIVE
-Github : 
-Cloudflare : 
+Github : https://lofstromfelicia.github.io/technigo-project-weather-app/
+
+Cloudflare : technigo-project-weather-app.pages.dev
 
 ## ✨ Features
 

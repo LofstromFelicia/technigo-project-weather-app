@@ -22,7 +22,7 @@ const getCustomIcon = (iconCode, weatherId = 0) => {
   if (iconCode.startsWith("03")) return isNight ? "natt-ganska-molnigt.svg" : "ganska-molnigt.svg"
   if (iconCode.startsWith("04")) return isNight ? "natt-helmulet.svg" : "helmulet.svg"
   if (iconCode.startsWith("09")) return "latt-regn.svg"
-  if (iconCode.startsWith("10")) return isNight ? "medium-regn.svg" : "solregn.svg"
+  if (iconCode.startsWith("10")) return isNight ? "medium-regn.svg" : "medium-regn.svg"
   if (iconCode.startsWith("11")) return "aska.svg"
   if (iconCode.startsWith("13")) return isNight ? "latt-sno.svg" : "latt-sno-sol.svg"
 
@@ -37,7 +37,7 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
 
   document.body.className = ""
 
-  const iconFile = getCustomIcon(weatherIconName, weatherId)
+  let iconFile = getCustomIcon(weatherIconName, weatherId)
 
   // === CLEAR SUN & NIGHT === 
   if (weatherMain === "Clear") {
@@ -78,6 +78,7 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
       outfitTip.innerHTML = "Det duggar lite lätt under molnen. Ett litet paraply räcker! 🌧️"
     } else if (weatherId === 501) {
       outfitTip.innerHTML = "Klassiskt svenskt regn. Jacka på! 🌧️"
+      iconFile = "medium-regn.svg"
     } else if (weatherId === 511) {
       outfitTip.innerHTML = "Se upp, det haglar/är underkylt regn! 🌧️"
     } else {

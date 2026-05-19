@@ -178,6 +178,48 @@ body {
   font-weight: 600;
 }
 
+#hourly-forecast {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  padding: 15px 30px;
+  margin: 15px 0 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#hour-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+.hour-time {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.hour-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.hour-temp {
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
 #outfit-tip {
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);

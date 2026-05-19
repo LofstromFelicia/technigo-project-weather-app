@@ -247,6 +247,40 @@ const fetchForecast = (cityName) => {
   fetch(FORECAST_URL)
     .then((response) => response.json())
     .then((data) => {
+      // NEW : 3 / 6 hours prognos
+      const hour1Data = data.list[0]  // first hour in list = 3 hours
+      const hour2Data = data.list[1] // second hour in list = 6 hours 
+
+      if (hour1Data && hour2Data) {
+        const temp1 = Math.round(hour1Data.main.temp)
+        const temp2 = Math.round(hour2Data.main.temp)
+
+        const icon1File = getCustomIcon(hour1Data.weather[0].icon)
+        const icon2File = getCustomIcon(hour2Data.weather[0].icon)
+
+        const date1 = new Date(hour1Data.dt * 1000)
+        const date2 = new Date(hour2Data.dt * 1000)
+
+        const time1 = date1.getHours().toString().padStart(2, "0") + ":00"
+        const time2 = date2.getHours().toString().padStart(2, "0") + ":00"
+
+        const hourlyForecastContainer = document.getElementById('hourly-forecast')
+        if (hourlyForecastContainer) {
+          hourlyForecastContainer.innerHTML = `
+          <div class="hour-item">
+          <span class="hour-time">${time1}</span>
+          <img class="hour-icon" src="./assets/${icon1File}" alt="Weather Icon">
+          <span class="hour-temp">${temp1}°C</span>
+          </div>
+          <div class="hour-item">
+          <span class="hour-time">${time2}</span>
+          <img class="hour-icon" src="./assets/${icon2File}" alt="Weather Icon">
+          <span class="hour-temp">${temp2}°C</span>
+          </div>
+          `
+        }
+      }
+
       const next24Hours = data.list.slice(0, 8)
 
       let highestTemp = -100

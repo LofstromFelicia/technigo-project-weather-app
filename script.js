@@ -12,27 +12,40 @@ const uvWarning = document.getElementById("uv-warning")
 const tempMaxMin = document.getElementById("temp-max-min")
 const pop = document.getElementById("pop")
 
+// --- FUNTION: MATCHES ICONCODE TO SVG FILE ---
+const getCustomIcon = (iconCode, weatherId = 0) => {
+  const isNight = iconCode.endsWith("n")
+
+  if (weatherId === 511) return "hagel.svg"
+  if (iconCode.startsWith("01")) return isNight ? "natt.svg" : "dag.svg"
+  if (iconCode.startsWith("02")) return isNight ? "natt-och-lite-moln.svg" : "sol-och-lite-moln.svg"
+  if (iconCode.startsWith("03")) return isNight ? "natt-ganska-molnigt.svg" : "ganska-molnigt.svg"
+  if (iconCode.startsWith("04")) return isNight ? "natt-helmulet.svg" : "helmulet.svg"
+  if (iconCode.startsWith("09")) return "latt-regn.svg"
+  if (iconCode.startsWith("10")) return isNight ? "medium-regn.svg" : "solregn.svg"
+  if (iconCode.startsWith("11")) return "aska.svg"
+  if (iconCode.startsWith("13")) return isNight ? "latt-sno.svg" : "latt-sno-sol.svg"
+
+  return "sol-och-moln.svg"
+}
+
+// --- STYLING & CLOTHING TIPS ---
 const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) => {
-  const container = document.getElementById("weather-container")
   const outfitTip = document.getElementById("outfit-tip")
   const weatherIcon = document.getElementById("weather-icon")
-
   const isNight = weatherIconName.endsWith("n")
-
-  let iconFile = "sol-och-moln.svg"
 
   document.body.className = ""
 
-  // ========== CLEAR SUN & NIGHT ==========
+  const iconFile = getCustomIcon(weatherIconName, weatherId)
+
+  // === CLEAR SUN & NIGHT === 
   if (weatherMain === "Clear") {
     if (isNight) {
       document.body.classList.add("weather-rainy")
       outfitTip.innerHTML = "Stjärnklart och fint ikväll! 🌙"
-      iconFile = "natt.svg"
     } else {
       document.body.classList.add("weather-sunny")
-      iconFile = "dag.svg"
-
       if (currentTemp < 10) {
         outfitTip.innerHTML = "Soligt men kallt! På med tjocktröja och solbrillorna.🥶🕶️"
       } else if (currentTemp >= 10 && currentTemp < 17) {
@@ -43,101 +56,50 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
     }
   }
 
-  // ========== CLOUDY ==========
+  // === CLOUDY ===
   else if (weatherMain === "Clouds") {
     document.body.classList.add("weather-cloudy")
-
     if (weatherId === 801 || weatherId === 802) {
-      if (isNight) {
-        outfitTip.innerHTML = "Lite nattmoln på himlen. 🌙☁️"
-        iconFile = "natt-och-lite-moln.svg"
-      } else {
-        outfitTip.innerHTML = "Solen kikar fram mellan molnen ibland! 🌤️"
-        iconFile = "sol-och-lite-moln.svg"
-      }
-    }
-    else if (weatherId === 803) {
-      if (isNight) {
-        outfitTip.innerHTML = "Ganska molnigt ikväll. ☁️"
-        iconFile = "natt-ganska-molnigt.svg"
-      } else {
-        outfitTip.innerHTML = "Ganska tunga moln på himlen idag. ⛅"
-        iconFile = "ganska-molnigt.svg"
-      }
-    }
-    else if (weatherId === 804) {
-      if (isNight) {
-        outfitTip.innerHTML = "Helt mulet i natt. ☁️"
-        iconFile = "natt-helmulet.svg"
-      } else {
-        outfitTip.innerHTML = "Grått och helmulet. Det hänger nästan regn i luften! ☁️"
-        iconFile = "helmulet.svg"
-      }
+      outfitTip.innerHTML = isNight ? "Lite nattmoln på himlen. 🌙☁️" : "Solen kikar fram mellan molnen ibland! 🌤️"
+    } else if (weatherId === 803) {
+      outfitTip.innerHTML = isNight ? "Ganska molnigt ikväll. ☁️" : "Ganska tunga moln på himlen idag. ⛅"
+    } else if (weatherId === 804) {
+      outfitTip.innerHTML = isNight ? "Helt mulet i natt. ☁️" : "Grått och helmulet. Det hänger nästan regn i luften! ☁️"
     }
   }
 
-  // ========== RAIN ==========
+  // === RAIN & DRIZZLE ===
   else if (weatherMain === "Rain" || weatherMain === "Drizzle") {
     document.body.classList.add("weather-rainy")
 
-    if (weatherId === 500 && !isNight) {
+    if (iconFile === "solregn.svg") {
       outfitTip.innerHTML = "Det duggar lite lätt medan solen är framme! 🌦️"
-      iconFile = "solregn.svg"
-    }
-    else if (weatherId === 501 && !isNight) {
-      outfitTip.innerHTML = "Regnskurar, men solen kämpar på i bakgrunden! 🌦️"
-      iconFile = "medium-regn-sol.svg"
-    }
-    else if (weatherId === 500 || weatherMain === "Drizzle") {
-      outfitTip.innerHTML = "Det duggar lite lätt, ett litet paraply räcker! 🌧️"
-      iconFile = "latt-regn.svg"
-    }
-    else if (weatherId === 501) {
+    } else if (iconFile === "latt-regn.svg") {
+      outfitTip.innerHTML = "Det duggar lite lätt under molnen. Ett litet paraply räcker! 🌧️"
+    } else if (weatherId === 501) {
       outfitTip.innerHTML = "Klassiskt svenskt regn. Jacka på! 🌧️"
-      iconFile = "medium-regn.svg"
-    }
-    else {
+    } else if (weatherId === 511) {
+      outfitTip.innerHTML = "Se upp, det haglar/är underkylt regn! 🌧️"
+    } else {
       outfitTip.innerHTML = "Ösregn! Regnjacka och gummistövlar på! 🌧️"
-      iconFile = "hart-regn.svg"
     }
   }
 
-  // ========== THUNDER & HAIL ==========
+  // === THUNDER ===
   else if (weatherMain === "Thunderstorm") {
     document.body.classList.add("weather-rainy")
     outfitTip.innerHTML = "Mullret går! Håll dig inomhus och mys. ⛈️"
-    iconFile = "aska.svg"
   }
 
-  if (weatherId === 511) {
-    document.body.classList.add("weather-rainy")
-    outfitTip.innerHTML = "Se upp, det haglar/är underkylt regn! 🥶"
-    iconFile = "hagel.svg"
-  }
-
-  // ========== SNOW ==========
+  // === SNOW ===
   else if (weatherMain === "Snow") {
     document.body.classList.add("weather-snow")
-
-    if (weatherId === 600 && !isNight) {
-      outfitTip.innerHTML = "Lätt nysnö och solglimtar! ❄️☀️"
-      iconFile = "latt-sno-sol.svg"
-    }
-    else if (weatherId === 601 && !isNight) {
-      outfitTip.innerHTML = "Det snöar på flit, men solen syns bakom! ❄️"
-      iconFile = "medium-sno-sol.svg"
-    }
-    else if (weatherId === 600) {
-      outfitTip.innerHTML = "Det singlar ner lite mysig nysnö! ❄️"
-      iconFile = "latt-sno.svg"
-    }
-    else if (weatherId === 601) {
-      outfitTip.innerHTML = "Det snöar jämnt och fint ute. ❄️"
-      iconFile = "medium-sno.svg"
-    }
-    else {
+    if (weatherId === 600) {
+      outfitTip.innerHTML = isNight ? "Det singlar ner lite mysig nysnö! ❄️" : "Lätt nysnö och solglimtar ❄️☀️"
+    } else if (weatherId === 601) {
+      outfitTip.innerHTML = isNight ? "Det snöar jämnt och fint ute. ❄️" : "Det snöar, men solen syns bakom! ❄️☀️"
+    } else {
       outfitTip.innerHTML = "Snöstorm! Tjockjacka, mössa och vantar på! 🌨️"
-      iconFile = "tung-sno.svg"
     }
   }
 
@@ -167,20 +129,15 @@ const fetchWeather = (cityName) => {
       const weatherId = data.weather[0].id
       const weatherIconName = data.weather[0].icon
 
-      const sunriseTime = formatTime(data.sys.sunrise)
-      const sunsetTime = formatTime(data.sys.sunset)
-
-      sunrise.innerHTML = sunriseTime
-      sunset.innerHTML = sunsetTime
+      sunrise.innerHTML = formatTime(data.sys.sunrise)
+      sunset.innerHTML = formatTime(data.sys.sunset)
 
       wind.innerHTML = `${data.wind.speed.toFixed(1)} m/s`
       humidity.innerHTML = `${data.main.humidity}%`
       feelsLike.innerHTML = `${data.main.feels_like.toFixed(1)}°`
-      const maxTemp = data.main.temp_max.toFixed(1)
-      const minTemp = data.main.temp_min.toFixed(1)
 
       let rainChance = data.clouds.all
-      if (weatherMain === "Rain" || weatherMain === "Drizzle" || weatherMain === "Thunderstorm") {
+      if (["Rain", "Drizzle", "Thunderstorm"].includes(weatherMain)) {
         rainChance = 100
       } else if (weatherMain === "Clear") {
         rainChance = 0
@@ -194,17 +151,13 @@ const fetchWeather = (cityName) => {
       const isNightTime = data.weather[0].icon.endsWith("n")
 
       let calculatedUV = 0
-
       if (isNightTime) {
         calculatedUV = 0
       } else if (isSunny) {
-        // If sunny, gives higher UV the hotter temp
         calculatedUV = Math.min(11, Math.max(1, Math.round(currentTemp / 3)))
       } else {
-        // if cloudy, less UV 
         calculatedUV = Math.min(3, Math.max(0, Math.round(currentTemp / 6)))
       }
-
       uvIndex.innerHTML = calculatedUV
 
       if (calculatedUV >= 3) {
@@ -217,29 +170,12 @@ const fetchWeather = (cityName) => {
           uvWarning.style.backgroundColor = "#f9e79f"
         }
       } else {
-        uvWarning.style.display = "none"  // hide bubble if low UV 
+        uvWarning.style.display = "none"
       }
 
       styleWeatherApp(weatherMain, weatherId, weatherIconName, currentTemp)
     })
     .catch((error) => console.error("Oops, your weather fetch did not work:", error))
-}
-
-const getCustomIcon = (iconCode) => {
-  const isNight = iconCode.endsWith("n")
-
-  if (iconCode.startsWith("01")) return isNight ? "natt.svg" : "dag.svg"
-  if (iconCode.startsWith("02")) return isNight ? "natt-och-lite-moln.svg" : "sol-och-lite-moln.svg"
-  if (iconCode.startsWith("03") || iconCode.startsWith("04")) {
-    return isNight ? "natt-helmulet.svg" : "helmulet.svg"
-  }
-  if (iconCode.startsWith("09") || iconCode.startsWith("10")) {
-    return isNight ? "medium-regn.svg" : "solregn.svg"
-  }
-  if (iconCode.startsWith("11")) return "aska.svg"
-  if (iconCode.startsWith("13")) return isNight ? "latt-sno.svg" : "latt-sno-sol.svg"
-
-  return "sol-och-moln.svg"
 }
 
 const fetchForecast = (cityName) => {
@@ -248,8 +184,8 @@ const fetchForecast = (cityName) => {
     .then((response) => response.json())
     .then((data) => {
       // NEW : 3 / 6 hours prognos
-      const hour1Data = data.list[0]  // first hour in list = 3 hours
-      const hour2Data = data.list[1] // second hour in list = 6 hours 
+      const hour1Data = data.list[0]
+      const hour2Data = data.list[1]
 
       if (hour1Data && hour2Data) {
         const temp1 = Math.round(hour1Data.main.temp)
@@ -282,7 +218,6 @@ const fetchForecast = (cityName) => {
       }
 
       const next24Hours = data.list.slice(0, 8)
-
       let highestTemp = -100
       let lowestTemp = 100
 
@@ -304,8 +239,7 @@ const fetchForecast = (cityName) => {
         const date = new Date(day.dt_txt)
         const dayName = date.toLocaleDateString("sv-SE", { weekday: "short" })
         const temp = day.main.temp.toFixed(1)
-        const forecastIcon = day.weather[0].icon
-        const customIconFile = getCustomIcon(forecastIcon)
+        const customIconFile = getCustomIcon(day.weather[0].icon, day.weather[0].id)
 
         forecastContainer.innerHTML += `
         <div class="forecast-row">
@@ -324,7 +258,6 @@ const searchBtn = document.getElementById("search-btn")
 
 searchBtn.addEventListener("click", () => {
   const userSearch = searchInput.value
-
   if (userSearch) {
     fetchWeather(userSearch)
     fetchForecast(userSearch)

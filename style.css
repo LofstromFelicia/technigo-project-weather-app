@@ -2,14 +2,15 @@ body {
   font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 20px;
-  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: background-color 0.8s ease;
   min-height: 100vh;
+  background: linear-gradient(135deg, #4a5c60, #2c3a3e) fixed;
+  transition: background-color 0.8s ease;
 }
 
+/* --- HEADER & SEARCH --- */
 .app-title {
   text-align: center;
   color: rgba(255, 255, 255, 0.75);
@@ -35,6 +36,7 @@ body {
   max-width: 360px;
   margin: 0 auto 30px auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
@@ -83,11 +85,12 @@ body {
   transform: scale(0.95);
 }
 
+/* --- WEATHER CONTAINER & CURRENT WEATHER --- */
 #weather-container {
   display: flex;
   flex-direction: column;
-  width: 450px;
-  max-width: 95%;
+  width: 95%;
+  max-width: 450px;
   box-sizing: border-box;
   margin: 20px auto;
   padding: 30px;
@@ -142,23 +145,6 @@ body {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.detail-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.detail-item span:first-child {
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 400;
-}
-
-.detail-item span:last-child {
-  color: #ffffff;
-  font-weight: 700;
-}
-
 .temp-block {
   margin-bottom: 15px;
 }
@@ -179,6 +165,7 @@ body {
   font-weight: 600;
 }
 
+/* --- HOURLY FORECAST --- */
 #hourly-forecast {
   display: flex;
   justify-content: space-between;
@@ -221,6 +208,7 @@ body {
   margin-top: 5px;
 }
 
+/* --- OUTFIT / CLOTHING PANEL --- */
 .outfit-container {
   margin-top: 25px;
   padding: 18px;
@@ -228,6 +216,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
   box-sizing: border-box;
+  width: 100%;
 }
 
 .outfit-label {
@@ -241,20 +230,15 @@ body {
 }
 
 #outfit-tip {
-  background-color: transparent;
-  border: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  padding: 0;
   margin: 0;
   font-size: 15px;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 500;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  width: 100%;
 }
 
+/* --- FLOATING WEATHER ICON --- */
 #weather-icon {
   width: 250px;
   height: 250px;
@@ -269,6 +253,41 @@ body {
   pointer-events: none;
 }
 
+/* --- WEATHER DETAILS & SUN TIMES --- */
+
+.weather-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item span:first-child {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 400;
+}
+
+.detail-item span:last-child {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.uv-bubble {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  animation: popIn 0.3s ease-out;
+}
+
 .sun-times {
   display: flex;
   justify-content: space-between;
@@ -278,6 +297,7 @@ body {
   font-size: 14px;
 }
 
+/* --- LONG TERM FORECAST --- */
 #forecast {
   display: flex;
   flex-direction: column;
@@ -306,17 +326,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.uv-bubble {
-  margin-top: 15px;
-  padding: 12px 20px;
-  border-radius: 15px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #2c3e50;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  animation: popIn 0.3s ease-out;
-}
-
+/* --- FOOTER --- */
 footer {
   text-align: center;
   padding: 30px 20px;
@@ -334,8 +344,8 @@ footer p {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-body.weather-cloudy,
-body {
+/* --- DYNAMIC WEATHER --- */
+body.weather-cloudy {
   background: linear-gradient(135deg, #4a5c60, #2c3a3e) fixed;
 }
 

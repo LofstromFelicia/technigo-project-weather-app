@@ -1,3 +1,4 @@
+// --- DOM ELEMENTS --- 
 const city = document.getElementById("city")
 const temperature = document.getElementById("temperature")
 const description = document.getElementById("description")
@@ -11,8 +12,10 @@ const uvIndex = document.getElementById("uv-index")
 const uvWarning = document.getElementById("uv-warning")
 const tempMaxMin = document.getElementById("temp-max-min")
 const pop = document.getElementById("pop")
+const searchInput = document.getElementById("search-input")
+const searchBtn = document.getElementById("search-btn")
 
-// --- FUNTION: MATCHES ICONCODE TO SVG FILE ---
+// --- FUNCTION: MATCHES ICONCODE TO SVG FILE ---
 const getCustomIcon = (iconCode, weatherId = 0) => {
   const isNight = iconCode.endsWith("n")
 
@@ -22,7 +25,7 @@ const getCustomIcon = (iconCode, weatherId = 0) => {
   if (iconCode.startsWith("03")) return isNight ? "natt-ganska-molnigt.svg" : "ganska-molnigt.svg"
   if (iconCode.startsWith("04")) return isNight ? "natt-helmulet.svg" : "helmulet.svg"
   if (iconCode.startsWith("09")) return "latt-regn.svg"
-  if (iconCode.startsWith("10")) return isNight ? "medium-regn.svg" : "medium-regn.svg"
+  if (iconCode.startsWith("10")) return "medium-regn.svg"
   if (iconCode.startsWith("11")) return "aska.svg"
   if (iconCode.startsWith("13")) return isNight ? "latt-sno.svg" : "latt-sno-sol.svg"
 
@@ -107,6 +110,7 @@ const styleWeatherApp = (weatherMain, weatherId, weatherIconName, currentTemp) =
   weatherIcon.src = `./assets/${iconFile}`
 }
 
+// --- FUNCTION: FORMAT TIMESTAMP TO HH:MM --- 
 const formatTime = (unixTimestamp) => {
   const date = new Date(unixTimestamp * 1000)
   const hours = date.getHours().toString().padStart(2, "0")
@@ -114,8 +118,10 @@ const formatTime = (unixTimestamp) => {
   return `${hours}:${minutes}`
 }
 
+// --- API CONFIG --- 
 const API_KEY = "b41cc812b4058189c1534f5dd668317d"
 
+// --- FETCH CURRENT WEATHER --- 
 const fetchWeather = (cityName) => {
   const URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&lang=se&APPID=${API_KEY}`
 
@@ -137,6 +143,7 @@ const fetchWeather = (cityName) => {
       humidity.innerHTML = `${data.main.humidity}%`
       feelsLike.innerHTML = `${data.main.feels_like.toFixed(1)}°`
 
+      // Logical fallback for precipitation probability 
       let rainChance = data.clouds.all
       if (["Rain", "Drizzle", "Thunderstorm"].includes(weatherMain)) {
         rainChance = 100
@@ -151,6 +158,7 @@ const fetchWeather = (cityName) => {
       const isSunny = data.weather[0].main === "Clear"
       const isNightTime = data.weather[0].icon.endsWith("n")
 
+      // Dynamic calculation for UV-index
       let calculatedUV = 0
       if (isNightTime) {
         calculatedUV = 0
@@ -161,6 +169,7 @@ const fetchWeather = (cityName) => {
       }
       uvIndex.innerHTML = calculatedUV
 
+      // UV warning container 
       if (calculatedUV >= 3) {
         uvWarning.style.display = "block"
         if (calculatedUV >= 6) {
@@ -179,6 +188,7 @@ const fetchWeather = (cityName) => {
     .catch((error) => console.error("Oops, your weather fetch did not work:", error))
 }
 
+// --- 5-DAY / HOURLY FORECAST --- 
 const fetchForecast = (cityName) => {
   const FORECAST_URL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=metric&lang=se&APPID=${API_KEY}`
   fetch(FORECAST_URL)
@@ -261,9 +271,7 @@ const fetchForecast = (cityName) => {
     .catch((error) => console.error("Prognos-fetch not working:", error))
 }
 
-const searchInput = document.getElementById("search-input")
-const searchBtn = document.getElementById("search-btn")
-
+// --- EVENT LISTENERS --- 
 searchBtn.addEventListener("click", () => {
   const userSearch = searchInput.value
   if (userSearch) {
@@ -279,5 +287,6 @@ searchInput.addEventListener("keydown", (event) => {
   }
 })
 
+// --- INITIAL APP START --- 
 fetchWeather("Tierp")
 fetchForecast("Tierp")
